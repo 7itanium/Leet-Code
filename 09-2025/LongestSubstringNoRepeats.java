@@ -34,6 +34,9 @@ class Solution {
         for (int i = 0; i < s.length(); i++) {
             List<Character> seen = new ArrayList<>();
             int tempOut = 0;
+            if (out >= s.length()-i) {
+                break;
+            }
 
             for (int j = i; j < s.length(); j++) {
                 char c = s.charAt(j);
