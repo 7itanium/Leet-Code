@@ -36,29 +36,38 @@ Constraints:
 s consists of English letters (lower-case and upper-case), ',' and '.'.
 1 <= numRows <= 1000
 
-
-
-THIS SOLLUTION SUCKS BUT I HATE THIS PROBLEM AND I'M NOT TRYING AGAIN
-
-
 */
 
 class Solution {
     public String convert(String s, int n) {
-        String ans = "";
         if (n < 2 || s.length() < 2) return s;
 
-        for (int j = 0; j < s.length(); j++) {
-            for (int i = 0; i < s.length(); i++) {
-                int z = (n + (n-2)), x = (i % z), y = ((x / n-1) + 1) * z, row = Math.abs(x - y);
+        StringBuilder[] rows = new StringBuilder[n];
 
-                if (row == j) {
-                    ans = ans + s.charAt(i);
-                }
-            
-            }
+        for (int i = 0; i < n; i++) {
+            rows[i] = new StringBuilder();
         }
 
-        return ans;
+        int direction = -1;
+        int rowNum = 0;
+        for (int i = 0; i < s.length(); i++) {
+            rows[rowNum].append(s.charAt(i));
+
+            if (rowNum == n - 1 || rowNum == 0) {
+                direction *= -1;
+            }
+
+            rowNum += direction;
+        }
+
+
+
+        StringBuilder ans = new StringBuilder();
+        for (StringBuilder row : rows) {
+            ans.append(row);
+        }
+
+
+        return ans.toString();
     }
 }
