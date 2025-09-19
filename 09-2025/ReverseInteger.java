@@ -27,29 +27,26 @@ Constraints:
 
 
 
-//I'm aware this is slow, sue me
-
 class Solution {
     public int reverse(int x) {
-        int sign = 1;
-        if (x < 0) {
-            sign = -1;
-            x = Math.abs(x);
-        }
 
+        /*
         String num = String.valueOf(x);
         StringBuilder temp = new StringBuilder(num);
         num = temp.reverse().toString();
         System.out.print(num);
 
-        try {
-            int ans = Integer.parseInt(num);
-            return (ans * sign);
-        } catch (Exception e) {
-            return 0;
+        int ans = Integer.parseInt(num);
+        */
+
+        long ans = 0;
+        while (x != 0) {
+            int temp = (x % 10);
+            ans = (ans * 10) + temp;
+            x /= 10;
+            if (ans > Integer.MAX_VALUE || ans < Integer.MIN_VALUE) return 0;
         }
-
-
+        return (int) ans;
         
     }
 }
