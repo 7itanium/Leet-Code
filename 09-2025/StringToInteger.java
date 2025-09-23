@@ -89,96 +89,45 @@ s consists of English letters (lower-case and upper-case), digits (0-9), ' ', '+
 
 class Solution {
     public int myAtoi(String s) {
-        StringBuilder ans = new StringBuilder();
-        boolean seenZero = false;
+        if (s.length() < 1) return 0;
         int neg = 1;
         int start = 0;
-
-        checkForStart:
+        long ans = 0;
+        removeWhiteSpace:
         for (int i = 0; i < s.length(); i++) {
-            char current = s.charAt(i);
-            if (current == '0') {
-                seenZero = true;
-                continue;
-            } else if (Character.isWhitespace(current) && seenZero == false) {
-                continue;
-            } else if (Character.isDigit(current)) {
+            if (Character.isWhitespace(s.charAt(i)) == false) {
                 start = i;
-                break checkForStart;
-            } else if (current == '-' || current == '+') {
-                if (current == '-') neg = -1;
-                start = i + 1;
-                if (seenZero == true) start = s.length();
-                break checkForStart;
-            } else {
-                break checkForStart;
+                break removeWhiteSpace;
             }
         }
 
-        getNum:
+        if (s.charAt(start) == '-' || s.charAt(start) == '+') {
+            neg = (s.charAt(start) == '-') ? -1 : 1;
+            //System.out.println(s.charAt(start));
+            start++;
+        }
+
         for (int i = start; i < s.length(); i++) {
-            char current = s.charAt(i);
-            if (Character.isDigit(current)) {
-                ans.append(current);
+            char c = s.charAt(i);
+
+            if (Character.isDigit(c) == false) {
+                break;
             } else {
-                break getNum;
-            }
-        }
-
-
-/*        mainloop:
-        for (int i = 0; i < s.length(); i++) {
-            char current = s.charAt(i);
-            if (Character.isDigit(current)) {
-                if (started == false && current == '0') {
-                    seenZero = true;
-                    continue mainloop;
+                //System.out.print(c);
+                ans *= 10;
+                int val = c - '0';
+                ans += val;
+                if (ans > Integer.MAX_VALUE) {
+                    return (neg == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
                 }
-                ans.append(current);
-                started = true;
-            } else if (started == false && seenZero == false) {
-                int index = Arrays.binarySearch(allowed, current);
-                System.out.print(current);
-                System.out.println(index);
-                switch (index) {
-                    case 1:
-                        neg = -1;
-                        continue mainloop;
-                    case 0:
-                        continue mainloop;
-                    case 2:
-                        continue mainloop;
-                    default:
-                        break mainloop;
-                } 
-            } else {
-                break mainloop;
             }
-        } */
-
-        
-        /*
-        if (ans.length() == 0) ans.append("0");
-        long fin = Long.parseLong(ans.toString());
-        if (fin > Integer.MAX_VALUE) {
-            fin = Integer.MAX_VALUE;
-            if (neg == -1) fin += 1;
-        } */
-
-        int fin = 0;
-        if (ans.length() == 0) ans.append("0");
-        try {
-            fin = Integer.parseInt(ans.toString());
-        } catch (Exception e) {
-            fin = Integer.MAX_VALUE;
-            if (neg == -1) fin += 1;
         }
-        
-        
-        return fin * neg;
 
-            
+        //System.out.println(neg);
+        //if (ans > Integer.MAX_VALUE) return Integer.MAX_VALUE;
+        //System.out.println(ans);
 
+        return (int) ans * neg;
         
     }
 }
