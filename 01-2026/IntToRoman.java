@@ -18,6 +18,7 @@ Only powers of 10 (I, X, C, M) can be appended consecutively at most 3 times to 
 Given an integer, convert it to a Roman numeral.
  */
 
+//Solution 2 (The better one)
 class Solution {
     public String intToRoman(int num) {
         StringBuilder roman = new StringBuilder();
@@ -35,5 +36,45 @@ class Solution {
         }
 
         return roman.toString();
+    }
+}
+
+
+//Solution 1
+class Solution {
+    public String intToRoman(int num) {
+        //int length = (int) Math.log10(num) + 1;
+        StringBuilder roman = new StringBuilder("");
+
+        roman.append(getChar(num, 1000, "M", "MMM", "MMMMMMMM"));
+        num = num % 1000;
+        roman.append(getChar(num, 100, "C", "D", "M"));
+        num = num % 100;
+        roman.append(getChar(num, 10, "X", "L", "C"));
+        num = num % 10;
+        roman.append(getChar(num, 1, "I", "V", "X"));
+
+        String ans = roman.toString();
+        return ans;
+    }
+
+    public String getChar(int num, int place, String letter1, String letter2, String letter3) {
+        int val = num / place;
+        switch (val) {
+        case 4:
+            return letter1 + letter2;
+        case 9:
+            return letter1 + letter3;
+        default:
+            StringBuilder roman = new StringBuilder("");
+            if (val > 4) {
+                roman.append(letter2);
+                val -= 5;
+            }
+            for (int i = 0; i < val; i++) {
+                roman.append(letter1);
+            }
+            return roman.toString();
+        }
     }
 }
