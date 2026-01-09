@@ -23,6 +23,22 @@ Constraints:
 strs[i] consists of only lowercase English letters if it is non-empty.
 */
 
+//Solution 2
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        String common = strs[0];
+
+        for (String word: strs) {
+            while(!word.startsWith(common)) {
+                common = common.substring(0, common.length() - 1);
+            }
+        }
+
+        return common;
+    }
+}
+
+//Solution 1
 class Solution {
     public String longestCommonPrefix(String[] strs) {
         String common = strs[0];
